@@ -1,2 +1,2 @@
 # PS
-solved
+beakjoon and Codeforce solved
