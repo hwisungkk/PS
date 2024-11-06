@@ -2,6 +2,7 @@
 #include<math.h>
 int main(){
     int a;
-    cin >> a;
+    int b;
+    int ttt=1000;
     return 0;
 }
