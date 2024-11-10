@@ -23,7 +23,7 @@ int main()
     int check[1001];
     vector<int> v1;
     string s;
-    int dp[10000]={0};
+    int dp[1000001]={0};
     cin >> n >> m;
     cin >> s;
     for(int i=0;i<m-2;i++){
