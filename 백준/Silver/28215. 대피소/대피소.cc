@@ -62,7 +62,7 @@ int main()
                 for(int k=0;k<n;k++){
                     int ma = -1;
                     for(int p=0;p<n;p++){
-                        if(ma< min({dis[i][k], dis[j][k], dis[p][k]})) ma = min({dis[i][k], dis[j][k], dis[p][k]});
+                        if(ma< min({dis[i][p], dis[j][p], dis[k][p]})) ma = min({dis[i][p], dis[j][p], dis[k][p]});
                     }
                     if(mi > ma)mi = ma;
                 }
