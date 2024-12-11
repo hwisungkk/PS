@@ -25,7 +25,7 @@ int main()
     }
     sort(v.begin(), v.end());
     c = t-1;
-    b = t*t;
+    b = t;
     if(v.size()>=2){
         while(b--){
         for(int i=0;i<=c-1;i++){
