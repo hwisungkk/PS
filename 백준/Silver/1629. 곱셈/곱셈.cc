@@ -1,37 +1,38 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <queue>
-#include <stack>
-#include <set>
 #include <functional>
+#include <stack>
+#include <map>
+#include <set>
 #include <algorithm>
 #include <math.h>
-#include <iomanip>
 using namespace std;
+long long solve(long long a, long long b, long long c){
+    if(b==1)return a%c;
+    
+    long long k = solve(a, b/2, c);
+    if(b%2==1){
+        return (k * k)%c * a%c;
+    }
+    else{
+        return (k * k) % c;
+    }
+}
 int main()
 {
     ios_base ::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+
     long long a, b, c;
-    long long n, m, k;
-    cin >> n >> m >> k;
-    vector<long long> v(51);
-    v[0] = n%k;
-    for(int i=1;i<=50;i++){
-        v[i] = (v[i-1]*v[i-1])%k;
-    }
-    long long ans=1;
-    for(int i=50;i>=0;i--){
-        if(pow(2, i) > m) continue;
-        else{
-            ans *= v[i];
-            m -= pow(2,i);
-            ans = ans%k;
-        }
-        //cout << m << ' ' << ans << '\n';
-    }
-    cout << ans%k;
+    int n, m, t;
+    char c1, c2, c3;
+
+    cin >> a >> b >> c;
+    long long ans;
+    ans = solve(a,b,c);
+    cout << ans%c;
+
     return 0;
 }
