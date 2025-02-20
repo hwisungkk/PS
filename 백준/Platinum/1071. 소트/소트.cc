@@ -1,53 +1,48 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <tuple>
+#include <functional>
 #include <stack>
+#include <map>
 #include <set>
-#include <queue>
 #include <algorithm>
 #include <math.h>
 using namespace std;
 int main()
 {
-    ios_base ::sync_with_stdio(false); 
+    ios_base ::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    
-    long long n, m, k;
-    long long a, b, c;
 
-    int t;
-    cin >> t;
-    vector <int> v(t);
-    for(int i=0;i<t;i++){
+    int a, b, c;
+    int n, m, t;
+    
+    cin >> n;
+    vector<int> v(n);
+    for(int i=0;i<n;i++){
         cin >> v[i];
     }
     sort(v.begin(), v.end());
-    c = t-1;
-    b = t;
-    if(v.size()>=2){
-        while(b--){
-        for(int i=0;i<=c-1;i++){
-            int check=0;
-            if(v[i]+1 == v[i+1]){
-                for(int j=i+1;j<=c;j++){
-                    if(v[j]!=v[i+1]){
-                        swap(v[j], v[i+1]);
-                        check=1;
-                        break;
-                    }
-                    if(j==c && check==0){
-                        swap(v[i], v[j]);
-                        c--;
-                        break;
-                    }
+
+    t=0;
+    int s_n = n;
+    for(int i=0;i<s_n-1;i++){
+        if(v[i]+1 == v[i+1]){
+            for(int j=i+1;j<s_n;j++){
+                if(v[i+1]!=v[j]){
+                    swap(v[i+1], v[j]);
+                    i=-1;
+                    break;
+                }
+                if(j==s_n-1){
+                    swap(v[i], v[j]);
+                    i=-1;
+                    s_n--;
                 }
             }
         }
-        }
     }
-    for(int i=0;i<t;i++){
+    for(int i=0;i<n;i++){
         cout << v[i] << ' ';
     }
 
