@@ -24,30 +24,44 @@ int main()
         t++;
         cin >> n >> m;
         if(n==0 && m==0)break;
-        vector<vector<int>> graph(n+1);
-        vector<bool> check(n+1, 0);
+        vector<vector<int>> parent(n+1, vector<int>(2, 0));
+        vector<int> high(n+1, 1);
+        for(int i=1;i<=n;i++){
+            parent[i][0]=i;
+        }
+        function <int(int)> find = [&](int v){
+            if(v==parent[v][0]) return v;
+            return parent[v][0] = find(parent[v][0]);
+        };
+        function <void(int, int)> uni = [&](int a, int b){
+            int u = find(a);
+            int v = find(b);
+            if(u==v){
+                parent[u][1]=1;
+                return; // 트리가 아니라는 거~
+            }
+            if(high[u]<high[v]) swap(u,v);
+
+            parent[v][0]=u;
+            if(high[u]==high[v])high[u]++;
+
+        };
         for(int i=0;i<m;i++){
             cin >> a >> b;
-            graph[a].push_back(b);
-            graph[b].push_back(a);
+            uni(a,b);
         }
-        bool flag = 1;
-        function <void(int, int)> dfs=[&](int k, int pre){
-            check[k]=1;
-            for(int i=0;i<graph[k].size();i++){
-                if(!check[graph[k][i]]){
-                    dfs(graph[k][i], k);
-                }
-                else if(pre!=graph[k][i])flag=0;
+        vector<int> check(n+1, 0);
+        for(int i=1;i<=n;i++){
+            if(find(i)!=parent[i][0]){
+                parent[i][0]=find(i);
             }
-        };
+            if(!parent[parent[i][0]][1]){
+                check[parent[i][0]]++;
+            }
+        }
         int cnt=0;
         for(int i=1;i<=n;i++){
-            flag = 1;
-            if(!check[i]){
-                dfs(i, 0);
-                if(flag)cnt++;
-            }
+            if(check[i]>0)cnt++;
         }
 
         cout << "Case " << t << ": ";
