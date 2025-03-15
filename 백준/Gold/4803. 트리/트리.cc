@@ -24,29 +24,28 @@ int main()
         t++;
         cin >> n >> m;
         if(n==0 && m==0)break;
-        vector<vector<int>> graph(n+1, vector<int>(n+1, 0));
+        vector<vector<int>> graph(n+1);
         vector<bool> check(n+1, 0);
         for(int i=0;i<m;i++){
             cin >> a >> b;
-            graph[a][b]=1;
-            graph[b][a]=1;
+            graph[a].push_back(b);
+            graph[b].push_back(a);
         }
         bool flag = 1;
-        function <void(int)> dfs=[&](int k){
+        function <void(int, int)> dfs=[&](int k, int pre){
             check[k]=1;
-            for(int i=1;i<n+1;i++){
-                if(graph[k][i]==1 && !check[i]){
-                    graph[i][k]=0;
-                    dfs(i);
+            for(int i=0;i<graph[k].size();i++){
+                if(!check[graph[k][i]]){
+                    dfs(graph[k][i], k);
                 }
-                else if(graph[k][i]==1)flag=0;
+                else if(pre!=graph[k][i])flag=0;
             }
         };
         int cnt=0;
         for(int i=1;i<=n;i++){
             flag = 1;
             if(!check[i]){
-                dfs(i);
+                dfs(i, 0);
                 if(flag)cnt++;
             }
         }
