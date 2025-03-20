@@ -17,67 +17,25 @@ int main()
     
     int a, b, c, d;
     int n, m, t;
-    long long ans;
-    string s;
-    
+    char ch;
+    bool flag=0;
     cin >> t;
-    while (t-->0) {
-        vector<int> v;
+    while(t-->0){
         cin >> n;
+        string s;
         cin >> s;
-        ans = 0;
-        for (int i=0;i<s.length();i++) {
-            if (s[i] == 'T') { //뒷면이 나온 위치를 저장
-                v.push_back(i);
+        long long ans=0;
+        int j=1;
+        for(int i=0;i<n;i++){
+            if((s[i]=='T')^(i&1)){
+                ans+=abs(i-j);
+                j+=2;
             }
         }
-
-        if (v.size()%2!=0) { //뒷면이 홀수개면 불가능
-            cout << "-1\n";
+        if(j>=n && j<=n+1){
+            cout << ans << '\n';
         }
-        else if (v.size()==0) {
-            cout << "0\n";
-        }
-        else { //뒷면 짝수
-            stack<int> st;
-            for (int i=0;i<v.size();i++) {
-                if (st.empty()) { //비었으면 일단 넣고
-                    st.push(i);
-                    continue;
-                }
-                int k = st.top();
-                if ((v[i]-v[k])%2==0) { //사이의 동전 개수가 홀수개면 또 넣고
-                    st.push(i);
-                }
-                else {
-                    ans += (v[i]-v[k]);
-                    st.pop();
-                }
-            }
-
-            if (!st.size()) cout << ans << '\n';
-            else cout << "-1\n";
-        }
+        else cout << "-1\n";
     }
     return 0;
 }
-/*
-THHT -> 3
-THHHHT -> 5
-THHHHHHT -> 7
-
-
-THTTHHTTHT
-
-
-THTHTTHHTTHTHT
-
-1
-6
-THTTHT
-
-HTHHTTTTHHT
-
-
-THTTTTHT
-*/
