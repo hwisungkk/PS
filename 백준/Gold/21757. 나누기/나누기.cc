@@ -51,10 +51,10 @@
                 qu_front.push_back(i);
             }
         }
-        at=0;
-        for(int i=n-1;i>=3;i--){
+        at=v[0]+v[1];
+        for(int i=2;i<n-1;i++){
             at+=v[i];
-            if(at==res){
+            if(at==res*3){
                 qu_back.push_back(i);
             }
         }
@@ -74,16 +74,27 @@
         long long ans=0;
         int f_l=0;
         int b_l=0;
+        if(qu_back.size()==0 || qu_back.size()==0){
+            cout << 0;
+            return 0;
+        }
         for(int i=0;i<middle.size();i++){
-            if(middle[i]>qu_front[f_l]){
+            while(middle[i]>qu_front[f_l]){
+                if(f_l == qu_front.size()){
+                    break;
+                }
                 f_l++;
             }
-            if(middle[i]>qu_back[b_l]){
+            while(middle[i]>=qu_back[b_l]){
+                if(b_l == qu_back.size()){
+                    break;
+                }
                 b_l++;
-                if(b_l==qu_back.size())break;
             }
 
-            ans+= f_l*(qu_back.size() - b_l);
+            //cout << f_l << ' ' << b_l << '\n';
+
+            ans+= (long long)f_l*(qu_back.size()-b_l);
         }
         cout << ans;
         return 0;
