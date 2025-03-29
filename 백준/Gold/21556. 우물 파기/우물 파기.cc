@@ -34,12 +34,12 @@
         while(l+1<r){
             mid = (l+r)>>1;
             int cur = 0; // mid가 커질수록 cur이 커짐.
+            int point=n-1;
             for(int i=0;i<n;i++){
-                int point=n-1;
                 while(point>i && mid <= v[i]+v[point]){
                     point--;
                 }
-                cur += (point-i);
+                cur += max(0, (point-i)); //음수가 될 수 있나
             }
             if(cur<gi/2){
                 l = mid;
