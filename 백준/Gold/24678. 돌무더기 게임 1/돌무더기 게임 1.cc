@@ -32,8 +32,8 @@ int main()
         if(b%2==0)cnt++;
         if(c%2==0)cnt++;
 
-        if(cnt>=2==0)cout << "B\n";
-        else cout << "R\n";
+        if(cnt>=2)cout << "R\n";
+        else cout << "B\n";
 
     }
     
