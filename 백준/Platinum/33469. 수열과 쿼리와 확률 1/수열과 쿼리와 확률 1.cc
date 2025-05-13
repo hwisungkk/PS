@@ -47,7 +47,7 @@ int main()
     char ch;
     cin >> ch;
 
-    if (c == 'S') { // S일 땐 변하는게 없는 듯??
+    if (ch == 'S') { // S일 땐 변하는게 없는 듯??
         cout << "1\n";
         return 0;
     }
