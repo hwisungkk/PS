@@ -16,6 +16,8 @@ int main()
     cout.tie(NULL);
     int t;
     cin >> n >> m;
+    cout<<fixed;
+    cout.precision(6);
     cout << (double)n/m;
     
     return 0;
