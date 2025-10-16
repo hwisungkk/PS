@@ -37,36 +37,31 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
 
-    long long mod = 998'244'353;
     using P=pair<ll,ll>;
 
-    long long a, b, c, d;
-    long long ans = 0;
+    ll a, b, c, d;
+    ll ans = 0;
+    int n, m;
 
     cin >> n >> m;
 
     vector<unordered_map<ll, ll>> graph(n+1);
     vector<pair<P, ll>> edge;
-
     vector<int> sz(n+1);
+
+    edge.reserve(m);
 
     for(int i=0;i<m;i++){
         cin >> a >> b >> c;
         graph[a][b]=c;
         graph[b][a]=c;
-        sz[a]++;
-        sz[b]++;
+        sz[a]++; sz[b]++;
         edge.push_back({{a,b}, c});
     }
 
-    //조건에 맞으려면 한 점에서 쭉 나오거나
-    //삼각형이 이뤄질 때
-
-    for(int i=1;i<=n;i++){ //이건 한점에서 뻗는애들
+    for(int i=1;i<=n;i++){
         ll tmp=0;
-        for(auto at:graph[i]){
-            tmp+=at.second;
-        }
+        for(auto at:graph[i]) tmp+=at.second;
         ans=max(ans, tmp);
     }
 
@@ -77,14 +72,16 @@ int main()
         return x<y;
     });
     vector<int> rk(n+1);
-    for(int i=1;i<=n;i++)rk[id[i]]=i;
+    for(int i=1;i<=n;i++) rk[id[i]]=i;
 
-    vector<vector<int>> fwd(n+1);
+    vector<vector<pair<int,ll>>> fwd(n+1);
+    for(int i=1;i<=n;i++) if(sz[i]) fwd[i].reserve(sz[i]);
     for(auto &e: edge){
-        int x = e.first.first;
-        int y = e.first.second;
-        if(rk[x]<rk[y]) fwd[x].push_back(y);
-        else fwd[y].push_back(x);
+        int x = (int)e.first.first;
+        int y = (int)e.first.second;
+        ll  w = e.second;
+        if(rk[x]<rk[y]) fwd[x].push_back({y,w});
+        else            fwd[y].push_back({x,w});
     }
 
     vector<int> vis(n+1, 0);
@@ -93,23 +90,26 @@ int main()
 
     for(int u=1; u<=n; u++){
         if(fwd[u].empty()) continue;
-        tag++;
+        ++tag;
 
-        for(int x:fwd[u]){
+        for(auto &nx : fwd[u]){
+            int x = nx.first;
             vis[x]=tag;
-            from[x]=graph[u][x];
+            from[x]=nx.second;
         }
-        for(int v:fwd[u]){
-            ll wuv=graph[u][v];
-            for(int x:fwd[v]){
+        for(auto &vv : fwd[u]){
+            int v = vv.first;
+            ll wuv = vv.second;
+            for(auto &vx : fwd[v]){
+                int x = vx.first;
                 if(vis[x]==tag){
-                    ll sum=wuv+from[x]+graph[v][x];
+                    ll sum = wuv + from[x] + vx.second;
                     if(sum>ans) ans=sum;
                 }
             }
         }
     }
-    cout << ans;
 
+    cout << ans << '\n';
     return 0;
 }
