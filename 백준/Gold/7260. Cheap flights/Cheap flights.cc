@@ -70,21 +70,41 @@ int main()
         ans=max(ans, tmp);
     }
 
-    for(auto at:edge){
-        ll x=at.first.first;
-        ll y=at.first.second;
+    vector<int> id(n+1);
+    iota(id.begin(), id.end(), 0);
+    sort(id.begin()+1, id.end(), [&](int x, int y){
+        if(sz[x]!=sz[y]) return sz[x]<sz[y];
+        return x<y;
+    });
+    vector<int> rk(n+1);
+    for(int i=1;i<=n;i++)rk[id[i]]=i;
 
-        if(sz[x]<sz[y]){
-            for(auto at2:graph[x]){
-                if(graph[y].find(at2.first)!=graph[y].end()){
-                    ans=max(ans, at.second+graph[y][at2.first]+at2.second);
-                }
-            }
+    vector<vector<int>> fwd(n+1);
+    for(auto &e: edge){
+        int x = e.first.first;
+        int y = e.first.second;
+        if(rk[x]<rk[y]) fwd[x].push_back(y);
+        else fwd[y].push_back(x);
+    }
+
+    vector<int> vis(n+1, 0);
+    vector<ll> from(n+1, 0);
+    int tag = 0;
+
+    for(int u=1; u<=n; u++){
+        if(fwd[u].empty()) continue;
+        tag++;
+
+        for(int x:fwd[u]){
+            vis[x]=tag;
+            from[x]=graph[u][x];
         }
-        else{
-            for(auto at2:graph[y]){
-                if(graph[x].find(at2.first)!=graph[x].end()){
-                    ans=max(ans, at.second+graph[x][at2.first]+at2.second);
+        for(int v:fwd[u]){
+            ll wuv=graph[u][v];
+            for(int x:fwd[v]){
+                if(vis[x]==tag){
+                    ll sum=wuv+from[x]+graph[v][x];
+                    if(sum>ans) ans=sum;
                 }
             }
         }
