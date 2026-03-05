@@ -53,11 +53,11 @@ int main()
     for(int i=0;i<n;i++){
         if(s[i]=='#')cac[i+1]=1;
     }
-    vector<vector<ll>> dp(n+2, vector<ll>(801, 0)); //해봤자 1000번 이상 점프 불가능?
+    vector<vector<ll>> dp(n+2, vector<ll>(454, 0)); //해봤자 1000번 이상 점프 불가능?
     dp[1][1]=1;
 
     for(int i=1;i<=n;i++){
-        for(int j=1;j<800;j++){ //1칸 가거나, j+1칸 가거나
+        for(int j=1;j<453;j++){ //1칸 가거나, j+1칸 가거나
             if(dp[i][j]){
                 if(!cac[i+1]){
                     dp[i+1][j]+=dp[i][j];
@@ -78,7 +78,7 @@ int main()
     //         cout << dp[i][j] <<' ';
     //     }cout<<'\n';
     // }
-    for(int i=0;i<=800;i++){
+    for(int i=0;i<=453;i++){
         ans+=dp[n+1][i];
         ans%=mod;
     }
